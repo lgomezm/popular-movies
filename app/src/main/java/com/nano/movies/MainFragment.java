@@ -29,16 +29,13 @@ import java.util.ArrayList;
 
 public class MainFragment extends Fragment {
 
-    private ArrayAdapter<String> adapter;
+    private MoviesListAdapter adapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
-        adapter = new ArrayAdapter<>(getActivity(),
-                R.layout.grid_item_movie,
-                R.id.grid_item_movie_textview,
-                new ArrayList<String>());
+        adapter = new MoviesListAdapter(getActivity(), new ArrayList<Movie>());
 
         GridView gridMovies = (GridView) rootView.findViewById(R.id.grid_movies);
         gridMovies.setAdapter(adapter);
@@ -139,7 +136,7 @@ public class MainFragment extends Fragment {
             if (null != movies) {
                 adapter.clear();
                 for (Movie movie : movies) {
-                    adapter.add(movie.getTitle());
+                    adapter.add(movie);
                 }
             }
         }

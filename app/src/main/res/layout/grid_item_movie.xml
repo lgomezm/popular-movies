@@ -1,7 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/grid_item_movie_textview"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:minHeight="?android:attr/listPreferredItemHeight"
-    android:gravity="center_vertical" />
+    android:layout_height="wrap_content">
+    <ImageView
+        android:id="@+id/grid_item_movie_imageview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:minHeight="?android:attr/listPreferredItemHeight"
+        android:gravity="center_vertical"
+        android:layout_weight=".95"/>
+    <TextView
+        android:id="@+id/grid_item_movie_textview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:padding="5dp"
+        android:minHeight="20dp"
+        android:gravity="center_vertical"
+        android:layout_weight=".05"
+        android:textColor="@color/white" />
+</LinearLayout>
