@@ -1,6 +1,7 @@
 package com.nano.movies;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,14 +17,17 @@ import java.util.List;
  * Created by Luis Gomez on 1/3/2017.
  */
 
-public class MoviesListAdapter extends ArrayAdapter<Movie> {
+public class MovieListAdapter extends ArrayAdapter<Movie> {
 
+    private final String LOG_TAG = MovieListAdapter.class.getSimpleName();
     private final static String BASE_URL = "http://image.tmdb.org/t/p/w500";
 
     private final Context context;
     private final List<Movie> movies;
+    private int totalPages;
+    private int maxPageReached;
 
-    public MoviesListAdapter(Context context, List<Movie> movies) {
+    public MovieListAdapter(Context context, List<Movie> movies) {
         super(context, -1, movies);
         this.context = context;
         this.movies = movies;
@@ -39,6 +43,22 @@ public class MoviesListAdapter extends ArrayAdapter<Movie> {
         textView.setText(movies.get(position).getTitle());
         String imageUrl = BASE_URL + movies.get(position).getImageUrl();
         Picasso.with(context).load(imageUrl).into(imageView);
+        if (movies.size() - 1 == position && maxPageReached < totalPages) {
+            Log.d(LOG_TAG, "Fetching more movies!");
+            FetchMoviesTask weatherTask = new FetchMoviesTask(this,
+                    context.getString(R.string.movies_api_key));
+            weatherTask.execute(maxPageReached + 1);
+        }
         return itemView;
+    }
+
+    public void updateMovies(MoviesResult moviesResult) {
+        totalPages = moviesResult.getTotalPages();
+        maxPageReached = moviesResult.getCurrentPage();
+        if (null != moviesResult && null != moviesResult.getMovies()) {
+            for (Movie movie : moviesResult.getMovies()) {
+                add(movie);
+            }
+        }
     }
 }
