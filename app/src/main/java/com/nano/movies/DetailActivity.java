@@ -7,6 +7,7 @@ import android.graphics.drawable.LayerDrawable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,6 +18,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
+
 
 public class DetailActivity extends ActionBarActivity {
 
@@ -57,6 +59,7 @@ public class DetailActivity extends ActionBarActivity {
                 TextView overviewView = (TextView) rootView.findViewById(R.id.movie_overview_textview);
                 ImageView imageView = (ImageView) rootView.findViewById(R.id.movie_imageview);
                 RatingBar voteAvgBar = (RatingBar) rootView.findViewById(R.id.movie_vote_average);
+                TextView releaseDateView = (TextView) rootView.findViewById(R.id.movie_release_date_textview);
                 LayerDrawable stars = (LayerDrawable) voteAvgBar.getProgressDrawable();
                 stars.getDrawable(0).setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_ATOP);
                 stars.getDrawable(1).setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_ATOP);
@@ -67,6 +70,10 @@ public class DetailActivity extends ActionBarActivity {
                 Picasso.with(getActivity()).load(BASE_URL + movie.getImagePath()).into(imageView);
                 if (movie.getVoteAverage() != 0.0f) {
                     voteAvgBar.setRating(movie.getVoteAverage() / 2);
+                }
+                if (null != movie.getReleaseDate()) {
+                    releaseDateView.setText("Released: " +
+                            DateFormat.format("MM/dd/yyyy", movie.getReleaseDate()));
                 }
             }
             return rootView;

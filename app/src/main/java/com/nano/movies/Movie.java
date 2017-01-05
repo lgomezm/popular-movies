@@ -1,6 +1,7 @@
 package com.nano.movies;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * Created by Luis Gomez on 1/3/2017.
@@ -9,6 +10,7 @@ import java.io.Serializable;
 public class Movie implements Serializable {
 
     private String title;
+    private Date releaseDate;
     private String overview;
     private float voteAverage;
     private String imagePath;
@@ -43,5 +45,13 @@ public class Movie implements Serializable {
 
     public void setVoteAverage(float voteAverage) {
         this.voteAverage = voteAverage;
+    }
+
+    public Date getReleaseDate() {
+        return releaseDate;
+    }
+
+    public void setReleaseDate(Date releaseDate) {
+        this.releaseDate = releaseDate;
     }
 }

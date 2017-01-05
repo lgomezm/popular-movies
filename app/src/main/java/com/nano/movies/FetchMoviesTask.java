@@ -14,7 +14,11 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -83,6 +87,7 @@ public class FetchMoviesTask extends AsyncTask<Integer, Void, MoviesResult> {
 
     private MoviesResult getMoviesResultFromJson(String moviesJsonStr) throws JSONException {
         if (null != moviesJsonStr) {
+            DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
             JSONObject moviesJson = new JSONObject(moviesJsonStr);
             JSONArray moviesArray = moviesJson.getJSONArray("results");
             List<Movie> movies = new ArrayList<>();
@@ -94,6 +99,7 @@ public class FetchMoviesTask extends AsyncTask<Integer, Void, MoviesResult> {
                 movie.setOverview(movieJson.getString("overview"));
                 movie.setVoteAverage((float) movieJson.getDouble("vote_average"));
                 movie.setImagePath(movieJson.getString("poster_path"));
+                movie.setReleaseDate(getReleaseDateFromJson(movieJson, format));
 
                 movies.add(movie);
             }
@@ -104,6 +110,18 @@ public class FetchMoviesTask extends AsyncTask<Integer, Void, MoviesResult> {
         } else {
             return null;
         }
+    }
+
+    private Date getReleaseDateFromJson(JSONObject movieJson, DateFormat format)
+            throws JSONException {
+        String releaseDateStr = movieJson.getString("release_date");
+        Date releaseDate = null;
+        try {
+            releaseDate = format.parse(releaseDateStr);
+        } catch (ParseException e) {
+            Log.e(LOG_TAG, "Error parsing release date: " + releaseDateStr, e);
+        }
+        return releaseDate;
     }
 
     @Override
