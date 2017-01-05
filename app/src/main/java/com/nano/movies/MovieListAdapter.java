@@ -1,6 +1,7 @@
 package com.nano.movies;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,7 +42,7 @@ public class MovieListAdapter extends ArrayAdapter<Movie> {
         TextView textView = (TextView) itemView.findViewById(R.id.grid_item_movie_textview);
         ImageView imageView = (ImageView) itemView.findViewById(R.id.grid_item_movie_imageview);
         textView.setText(movies.get(position).getTitle());
-        String imageUrl = BASE_URL + movies.get(position).getImageUrl();
+        String imageUrl = BASE_URL + movies.get(position).getImagePath();
         Picasso.with(context).load(imageUrl).into(imageView);
         if (movies.size() - 1 == position && maxPageReached < totalPages) {
             Log.d(LOG_TAG, "Fetching more movies!");
@@ -53,9 +54,9 @@ public class MovieListAdapter extends ArrayAdapter<Movie> {
     }
 
     public void updateMovies(MoviesResult moviesResult) {
-        totalPages = moviesResult.getTotalPages();
-        maxPageReached = moviesResult.getCurrentPage();
         if (null != moviesResult && null != moviesResult.getMovies()) {
+            totalPages = moviesResult.getTotalPages();
+            maxPageReached = moviesResult.getCurrentPage();
             for (Movie movie : moviesResult.getMovies()) {
                 add(movie);
             }

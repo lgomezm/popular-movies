@@ -91,7 +91,9 @@ public class FetchMoviesTask extends AsyncTask<Integer, Void, MoviesResult> {
 
                 Movie movie = new Movie();
                 movie.setTitle(movieJson.getString("original_title"));
-                movie.setImageUrl(movieJson.getString("poster_path"));
+                movie.setOverview(movieJson.getString("overview"));
+                movie.setVoteAverage((float) movieJson.getDouble("vote_average"));
+                movie.setImagePath(movieJson.getString("poster_path"));
 
                 movies.add(movie);
             }

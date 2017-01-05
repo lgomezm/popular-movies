@@ -1,20 +1,24 @@
 package com.nano.movies;
 
+import java.io.Serializable;
+
 /**
  * Created by Luis Gomez on 1/3/2017.
  */
 
-public class Movie {
+public class Movie implements Serializable {
 
-    private String imageUrl;
     private String title;
+    private String overview;
+    private float voteAverage;
+    private String imagePath;
 
-    public String getImageUrl() {
-        return imageUrl;
+    public String getImagePath() {
+        return imagePath;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
     }
 
     public String getTitle() {
@@ -23,5 +27,21 @@ public class Movie {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getOverview() {
+        return overview;
+    }
+
+    public void setOverview(String overview) {
+        this.overview = overview;
+    }
+
+    public float getVoteAverage() {
+        return voteAverage;
+    }
+
+    public void setVoteAverage(float voteAverage) {
+        this.voteAverage = voteAverage;
     }
 }
