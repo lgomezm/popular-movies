@@ -1,7 +1,9 @@
 package com.nano.movies;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,8 +48,11 @@ public class MovieListAdapter extends ArrayAdapter<Movie> {
         Picasso.with(context).load(imageUrl).into(imageView);
         if (movies.size() - 1 == position && maxPageReached < totalPages) {
             Log.d(LOG_TAG, "Fetching more movies!");
+            String sortOrder = PreferenceManager.getDefaultSharedPreferences(context).getString(
+                            context.getString(R.string.pref_movies_by_key),
+                            context.getString(R.string.pref_movies_by_popular));
             FetchMoviesTask weatherTask = new FetchMoviesTask(this,
-                    context.getString(R.string.movies_api_key));
+                    context.getString(R.string.movies_api_key), sortOrder);
             weatherTask.execute(maxPageReached + 1);
         }
         return itemView;

@@ -1,14 +1,15 @@
 package com.nano.movies;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -42,14 +43,19 @@ public class MainFragment extends Fragment {
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
+    public void onResume() {
+        super.onResume();
         fetchMovies();
     }
 
     private void fetchMovies() {
+        adapter.clear();
+        Context context = getActivity();
+        String sortOrder = PreferenceManager.getDefaultSharedPreferences(context).getString(
+                context.getString(R.string.pref_movies_by_key),
+                context.getString(R.string.pref_movies_by_popular));
         FetchMoviesTask weatherTask = new FetchMoviesTask(adapter,
-                getString(R.string.movies_api_key));
+                getString(R.string.movies_api_key), sortOrder);
         weatherTask.execute(new Integer(1));
     }
 }

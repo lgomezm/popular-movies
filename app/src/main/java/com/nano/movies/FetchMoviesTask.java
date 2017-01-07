@@ -31,20 +31,24 @@ public class FetchMoviesTask extends AsyncTask<Integer, Void, MoviesResult> {
 
     private MovieListAdapter adapter;
     private String apiKey;
+    private String sortOrder;
 
-    public FetchMoviesTask(MovieListAdapter adapter, String apiKey) {
+    public FetchMoviesTask(MovieListAdapter adapter, String apiKey, String sortOrder) {
         this.adapter = adapter;
         this.apiKey = apiKey;
+        this.sortOrder = sortOrder;
     }
 
     @Override
     protected MoviesResult doInBackground(Integer... objects) {
         HttpURLConnection urlConnection = null;
         BufferedReader reader = null;
+
         try {
             int pageNumber = objects[0];
             String moviesJsonStr = null;
-            Uri builtUri = Uri.parse("https://api.themoviedb.org/3/movie/popular?").buildUpon()
+            Uri builtUri = Uri.parse("https://api.themoviedb.org/3/movie").buildUpon()
+                    .appendPath(sortOrder)
                     .appendQueryParameter("page", String.valueOf(pageNumber))
                     .appendQueryParameter("api_key", apiKey).build();
             URL url = new URL(builtUri.toString());
