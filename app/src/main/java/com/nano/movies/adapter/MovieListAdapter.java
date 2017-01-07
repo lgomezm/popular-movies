@@ -1,4 +1,4 @@
-package com.nano.movies;
+package com.nano.movies.adapter;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -12,6 +12,10 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.nano.movies.R;
+import com.nano.movies.model.Movie;
+import com.nano.movies.model.MoviesResult;
+import com.nano.movies.task.FetchMoviesTask;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;

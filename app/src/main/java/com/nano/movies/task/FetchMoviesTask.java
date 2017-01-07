@@ -1,8 +1,12 @@
-package com.nano.movies;
+package com.nano.movies.task;
 
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
+
+import com.nano.movies.adapter.MovieListAdapter;
+import com.nano.movies.model.Movie;
+import com.nano.movies.model.MoviesResult;
 
 import org.json.JSONArray;
 import org.json.JSONException;

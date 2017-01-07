@@ -1,4 +1,4 @@
-package com.nano.movies;
+package com.nano.movies.model;
 
 import java.util.List;
 

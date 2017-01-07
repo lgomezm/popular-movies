@@ -1,10 +1,12 @@
-package com.nano.movies;
+package com.nano.movies.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.nano.movies.R;
 
 public class MainActivity extends ActionBarActivity {
 

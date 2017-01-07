@@ -1,4 +1,4 @@
-package com.nano.movies;
+package com.nano.movies.activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,6 +10,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+
+import com.nano.movies.R;
+import com.nano.movies.activity.DetailActivity;
+import com.nano.movies.adapter.MovieListAdapter;
+import com.nano.movies.model.Movie;
+import com.nano.movies.task.FetchMoviesTask;
 
 import java.util.ArrayList;
 

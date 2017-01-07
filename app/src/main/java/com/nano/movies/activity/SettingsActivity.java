@@ -1,10 +1,12 @@
-package com.nano.movies;
+package com.nano.movies.activity;
 
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
+
+import com.nano.movies.R;
 
 /**
  * Created by Luis Gomez on 1/7/2017.

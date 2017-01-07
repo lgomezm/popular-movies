@@ -1,4 +1,4 @@
-package com.nano.movies;
+package com.nano.movies.activity;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -9,16 +9,15 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.nano.movies.R;
+import com.nano.movies.model.Movie;
 import com.squareup.picasso.Picasso;
-
 
 public class DetailActivity extends ActionBarActivity {
 
@@ -34,9 +33,6 @@ public class DetailActivity extends ActionBarActivity {
         }
     }
 
-    /**
-     * A placeholder fragment containing a simple view.
-     */
     public static class DetailFragment extends Fragment {
 
         private static final String LOG_TAG = DetailFragment.class.getSimpleName();
@@ -77,11 +73,6 @@ public class DetailActivity extends ActionBarActivity {
                 }
             }
             return rootView;
-        }
-
-        @Override
-        public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-
         }
     }
 }
