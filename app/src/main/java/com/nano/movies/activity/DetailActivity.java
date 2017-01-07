@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,7 +37,6 @@ public class DetailActivity extends ActionBarActivity {
     public static class DetailFragment extends Fragment {
 
         private static final String LOG_TAG = DetailFragment.class.getSimpleName();
-        private static final String BASE_URL = "http://image.tmdb.org/t/p/w500";
 
         public DetailFragment() {
             setHasOptionsMenu(true);
@@ -48,8 +48,9 @@ public class DetailActivity extends ActionBarActivity {
 
             Intent intent = getActivity().getIntent();
             View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
-            if (null != intent && intent.hasExtra("movie")) {
-                Movie movie = (Movie) intent.getSerializableExtra("movie");
+            String movieExtraKey = getString(R.string.movie_extra_key);
+            if (null != intent && intent.hasExtra(movieExtraKey)) {
+                Movie movie = (Movie) intent.getSerializableExtra(movieExtraKey);
 
                 TextView titleView = (TextView) rootView.findViewById(R.id.movie_title_textview);
                 TextView overviewView = (TextView) rootView.findViewById(R.id.movie_overview_textview);
@@ -57,20 +58,27 @@ public class DetailActivity extends ActionBarActivity {
                 RatingBar voteAvgBar = (RatingBar) rootView.findViewById(R.id.movie_vote_average);
                 TextView releaseDateView = (TextView) rootView.findViewById(R.id.movie_release_date_textview);
                 LayerDrawable stars = (LayerDrawable) voteAvgBar.getProgressDrawable();
+
+                // Set ratingBar colors to yellow/gray.
                 stars.getDrawable(0).setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_ATOP);
                 stars.getDrawable(1).setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_ATOP);
                 stars.getDrawable(2).setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_ATOP);
 
                 titleView.setText(movie.getTitle());
                 overviewView.setText(movie.getOverview());
-                Picasso.with(getActivity()).load(BASE_URL + movie.getImagePath()).into(imageView);
+                Picasso.with(getActivity())
+                        .load(getString(R.string.images_base_url)+ movie.getImagePath())
+                        .into(imageView);
                 if (movie.getVoteAverage() != 0.0f) {
                     voteAvgBar.setRating(movie.getVoteAverage() / 2);
                 }
                 if (null != movie.getReleaseDate()) {
                     releaseDateView.setText("Released: " +
-                            DateFormat.format("MM/dd/yyyy", movie.getReleaseDate()));
+                            DateFormat.format(getString(R.string.release_date_display_format),
+                                    movie.getReleaseDate()));
                 }
+            } else {
+                Log.d(LOG_TAG, "No movie extra from intent");
             }
             return rootView;
         }

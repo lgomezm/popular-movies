@@ -1,9 +1,6 @@
 package com.nano.movies.adapter;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.graphics.drawable.Drawable;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,7 +24,6 @@ import java.util.List;
 public class MovieListAdapter extends ArrayAdapter<Movie> {
 
     private final String LOG_TAG = MovieListAdapter.class.getSimpleName();
-    private final static String BASE_URL = "http://image.tmdb.org/t/p/w500";
 
     private final Context context;
     private final List<Movie> movies;
@@ -48,15 +44,11 @@ public class MovieListAdapter extends ArrayAdapter<Movie> {
         TextView textView = (TextView) itemView.findViewById(R.id.grid_item_movie_textview);
         ImageView imageView = (ImageView) itemView.findViewById(R.id.grid_item_movie_imageview);
         textView.setText(movies.get(position).getTitle());
-        String imageUrl = BASE_URL + movies.get(position).getImagePath();
+        String imageUrl = context.getString(R.string.images_base_url) + movies.get(position).getImagePath();
         Picasso.with(context).load(imageUrl).into(imageView);
         if (movies.size() - 1 == position && maxPageReached < totalPages) {
             Log.d(LOG_TAG, "Fetching more movies!");
-            String sortOrder = PreferenceManager.getDefaultSharedPreferences(context).getString(
-                            context.getString(R.string.pref_movies_by_key),
-                            context.getString(R.string.pref_movies_by_popular));
-            FetchMoviesTask weatherTask = new FetchMoviesTask(this,
-                    context.getString(R.string.movies_api_key), sortOrder);
+            FetchMoviesTask weatherTask = new FetchMoviesTask(this);
             weatherTask.execute(maxPageReached + 1);
         }
         return itemView;
@@ -70,5 +62,9 @@ public class MovieListAdapter extends ArrayAdapter<Movie> {
                 add(movie);
             }
         }
+    }
+
+    public Context getContext() {
+        return context;
     }
 }

@@ -1,9 +1,12 @@
 package com.nano.movies.task;
 
+import android.content.Context;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
+import com.nano.movies.R;
 import com.nano.movies.adapter.MovieListAdapter;
 import com.nano.movies.model.Movie;
 import com.nano.movies.model.MoviesResult;
@@ -34,13 +37,9 @@ public class FetchMoviesTask extends AsyncTask<Integer, Void, MoviesResult> {
     private final String LOG_TAG = FetchMoviesTask.class.getSimpleName();
 
     private MovieListAdapter adapter;
-    private String apiKey;
-    private String sortOrder;
 
-    public FetchMoviesTask(MovieListAdapter adapter, String apiKey, String sortOrder) {
+    public FetchMoviesTask(MovieListAdapter adapter) {
         this.adapter = adapter;
-        this.apiKey = apiKey;
-        this.sortOrder = sortOrder;
     }
 
     @Override
@@ -48,10 +47,16 @@ public class FetchMoviesTask extends AsyncTask<Integer, Void, MoviesResult> {
         HttpURLConnection urlConnection = null;
         BufferedReader reader = null;
 
+        Context context = adapter.getContext();
+        String baseUrl = context.getString(R.string.movies_base_url);
+        String apiKey = context.getString(R.string.movies_api_key);
+        String sortOrder = PreferenceManager.getDefaultSharedPreferences(context).getString(
+                context.getString(R.string.pref_movies_by_key),
+                context.getString(R.string.pref_movies_by_popular));
         try {
             int pageNumber = objects[0];
             String moviesJsonStr = null;
-            Uri builtUri = Uri.parse("https://api.themoviedb.org/3/movie").buildUpon()
+            Uri builtUri = Uri.parse(baseUrl).buildUpon()
                     .appendPath(sortOrder)
                     .appendQueryParameter("page", String.valueOf(pageNumber))
                     .appendQueryParameter("api_key", apiKey).build();

@@ -1,9 +1,7 @@
 package com.nano.movies.activity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +10,6 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 
 import com.nano.movies.R;
-import com.nano.movies.activity.DetailActivity;
 import com.nano.movies.adapter.MovieListAdapter;
 import com.nano.movies.model.Movie;
 import com.nano.movies.task.FetchMoviesTask;
@@ -39,7 +36,7 @@ public class MainFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Movie movie = adapter.getItem(position);
                 Intent intent = new Intent(getActivity(), DetailActivity.class);
-                intent.putExtra("movie", movie);
+                intent.putExtra(getString(R.string.movie_extra_key), movie);
                 startActivity(intent);
             }
         });
@@ -51,17 +48,8 @@ public class MainFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        fetchMovies();
-    }
-
-    private void fetchMovies() {
         adapter.clear();
-        Context context = getActivity();
-        String sortOrder = PreferenceManager.getDefaultSharedPreferences(context).getString(
-                context.getString(R.string.pref_movies_by_key),
-                context.getString(R.string.pref_movies_by_popular));
-        FetchMoviesTask weatherTask = new FetchMoviesTask(adapter,
-                getString(R.string.movies_api_key), sortOrder);
+        FetchMoviesTask weatherTask = new FetchMoviesTask(adapter);
         weatherTask.execute(new Integer(1));
     }
 }
