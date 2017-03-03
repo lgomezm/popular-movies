@@ -1,6 +1,8 @@
 package com.nano.movies.adapter;
 
+import android.app.Fragment;
 import android.content.Context;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.nano.movies.R;
+import com.nano.movies.activity.MainFragment;
 import com.nano.movies.model.Movie;
 import com.nano.movies.model.MoviesResult;
 import com.nano.movies.task.FetchMoviesTask;
@@ -26,13 +29,15 @@ public class MovieListAdapter extends ArrayAdapter<Movie> {
     private final String LOG_TAG = MovieListAdapter.class.getSimpleName();
 
     private final Context context;
+    private final MainFragment fragment;
     private final List<Movie> movies;
     private int totalPages;
     private int maxPageReached;
 
-    public MovieListAdapter(Context context, List<Movie> movies) {
+    public MovieListAdapter(Context context, MainFragment fragment, List<Movie> movies) {
         super(context, -1, movies);
         this.context = context;
+        this.fragment = fragment;
         this.movies = movies;
     }
 
@@ -48,8 +53,9 @@ public class MovieListAdapter extends ArrayAdapter<Movie> {
         Picasso.with(context).load(imageUrl).into(imageView);
         if (movies.size() - 1 == position && maxPageReached < totalPages) {
             Log.d(LOG_TAG, "Fetching more movies!");
-            FetchMoviesTask weatherTask = new FetchMoviesTask(this);
-            weatherTask.execute(maxPageReached + 1);
+            Bundle args = new Bundle();
+            args.putInt("page", maxPageReached + 1);
+            fragment.getLoaderManager().restartLoader(MainFragment.MOVIES_LOADER, args, fragment).forceLoad();
         }
         return itemView;
     }

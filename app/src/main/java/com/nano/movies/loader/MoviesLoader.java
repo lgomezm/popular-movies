@@ -1,13 +1,12 @@
-package com.nano.movies.task;
+package com.nano.movies.loader;
 
 import android.content.Context;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.preference.PreferenceManager;
+import android.support.v4.content.AsyncTaskLoader;
 import android.util.Log;
 
 import com.nano.movies.R;
-import com.nano.movies.adapter.MovieListAdapter;
 import com.nano.movies.model.Movie;
 import com.nano.movies.model.MoviesResult;
 
@@ -29,32 +28,32 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Created by Luis Gomez on 1/3/2017.
+ * Created by Luis Gomez on 3/2/2017.
  */
 
-public class FetchMoviesTask extends AsyncTask<Integer, Void, MoviesResult> {
+public class MoviesLoader extends AsyncTaskLoader<MoviesResult> {
 
-    private final String LOG_TAG = FetchMoviesTask.class.getSimpleName();
+    private final String LOG_TAG = MoviesLoader.class.getSimpleName();
 
-    private MovieListAdapter adapter;
+    private int pageNumber;
 
-    public FetchMoviesTask(MovieListAdapter adapter) {
-        this.adapter = adapter;
+    public MoviesLoader(Context context, int pageNumber) {
+        super(context);
+        this.pageNumber = pageNumber;
     }
 
     @Override
-    protected MoviesResult doInBackground(Integer... objects) {
+    public MoviesResult loadInBackground() {
         HttpURLConnection urlConnection = null;
         BufferedReader reader = null;
 
-        Context context = adapter.getContext();
+        Context context = getContext();
         String baseUrl = context.getString(R.string.movies_base_url);
         String apiKey = context.getString(R.string.movies_api_key);
         String sortOrder = PreferenceManager.getDefaultSharedPreferences(context).getString(
                 context.getString(R.string.pref_movies_by_key),
                 context.getString(R.string.pref_movies_by_popular));
         try {
-            int pageNumber = objects[0];
             String moviesJsonStr = null;
             Uri builtUri = Uri.parse(baseUrl).buildUpon()
                     .appendPath(sortOrder)
@@ -135,10 +134,5 @@ public class FetchMoviesTask extends AsyncTask<Integer, Void, MoviesResult> {
             Log.e(LOG_TAG, "Error parsing release date: " + releaseDateStr, e);
         }
         return releaseDate;
-    }
-
-    @Override
-    protected void onPostExecute(MoviesResult moviesResult) {
-        adapter.updateMovies(moviesResult);
     }
 }
