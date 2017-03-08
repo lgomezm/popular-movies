@@ -1,5 +1,7 @@
 package com.nano.movies.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -10,9 +12,12 @@ import java.util.Date;
 public class Movie implements Serializable {
 
     private String title;
+    @SerializedName("release_date")
     private Date releaseDate;
     private String overview;
+    @SerializedName("vote_average")
     private float voteAverage;
+    @SerializedName("poster_path")
     private String imagePath;
 
     public String getImagePath() {

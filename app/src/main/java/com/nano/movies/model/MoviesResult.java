@@ -1,5 +1,7 @@
 package com.nano.movies.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 /**
@@ -8,8 +10,11 @@ import java.util.List;
 
 public class MoviesResult {
 
+    @SerializedName("results")
     private List<Movie> movies;
+    @SerializedName("total_pages")
     private int totalPages;
+    @SerializedName("page")
     private int currentPage;
 
     public List<Movie> getMovies() {

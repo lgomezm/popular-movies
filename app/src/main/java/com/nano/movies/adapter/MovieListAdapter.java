@@ -1,6 +1,5 @@
 package com.nano.movies.adapter;
 
-import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,7 +14,6 @@ import com.nano.movies.R;
 import com.nano.movies.activity.MainFragment;
 import com.nano.movies.model.Movie;
 import com.nano.movies.model.MoviesResult;
-import com.nano.movies.task.FetchMoviesTask;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
