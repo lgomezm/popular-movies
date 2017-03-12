@@ -20,6 +20,9 @@ import com.nano.movies.R;
 import com.nano.movies.model.Movie;
 import com.squareup.picasso.Picasso;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class DetailActivity extends ActionBarActivity {
 
     @Override
@@ -38,6 +41,12 @@ public class DetailActivity extends ActionBarActivity {
 
         private static final String LOG_TAG = DetailFragment.class.getSimpleName();
 
+        @BindView(R.id.movie_title_textview) TextView titleView;
+        @BindView(R.id.movie_overview_textview) TextView overviewView;
+        @BindView(R.id.movie_imageview) ImageView imageView;
+        @BindView(R.id.movie_vote_average) RatingBar voteAvgBar;
+        @BindView(R.id.movie_release_date_textview) TextView releaseDateView;
+
         public DetailFragment() {
             setHasOptionsMenu(true);
         }
@@ -52,11 +61,7 @@ public class DetailActivity extends ActionBarActivity {
             if (null != intent && intent.hasExtra(movieExtraKey)) {
                 Movie movie = (Movie) intent.getSerializableExtra(movieExtraKey);
 
-                TextView titleView = (TextView) rootView.findViewById(R.id.movie_title_textview);
-                TextView overviewView = (TextView) rootView.findViewById(R.id.movie_overview_textview);
-                ImageView imageView = (ImageView) rootView.findViewById(R.id.movie_imageview);
-                RatingBar voteAvgBar = (RatingBar) rootView.findViewById(R.id.movie_vote_average);
-                TextView releaseDateView = (TextView) rootView.findViewById(R.id.movie_release_date_textview);
+                ButterKnife.bind(this, rootView);
                 LayerDrawable stars = (LayerDrawable) voteAvgBar.getProgressDrawable();
 
                 // Set ratingBar colors to yellow/gray.
