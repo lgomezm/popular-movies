@@ -38,10 +38,16 @@
         android:layout_weight="0.05"
         android:textColor="@color/white"
         android:gravity="center_horizontal"/>
+    <Button
+        android:id="@+id/view_trailers_button"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.05"
+        android:text="View trailers"/>
     <TextView android:id="@+id/movie_overview_textview"
         android:textColor="@color/white"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.35" />
+        android:layout_weight="0.30" />
 
 </LinearLayout>

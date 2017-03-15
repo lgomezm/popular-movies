@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -46,6 +47,7 @@ public class DetailActivity extends ActionBarActivity {
         @BindView(R.id.movie_imageview) ImageView imageView;
         @BindView(R.id.movie_vote_average) RatingBar voteAvgBar;
         @BindView(R.id.movie_release_date_textview) TextView releaseDateView;
+        @BindView(R.id.view_trailers_button) Button buttonViewTrailers;
 
         public DetailFragment() {
             setHasOptionsMenu(true);
@@ -59,7 +61,7 @@ public class DetailActivity extends ActionBarActivity {
             View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
             String movieExtraKey = getString(R.string.movie_extra_key);
             if (null != intent && intent.hasExtra(movieExtraKey)) {
-                Movie movie = (Movie) intent.getSerializableExtra(movieExtraKey);
+                final Movie movie = (Movie) intent.getSerializableExtra(movieExtraKey);
 
                 ButterKnife.bind(this, rootView);
                 LayerDrawable stars = (LayerDrawable) voteAvgBar.getProgressDrawable();
@@ -82,6 +84,16 @@ public class DetailActivity extends ActionBarActivity {
                             DateFormat.format(getString(R.string.release_date_display_format),
                                     movie.getReleaseDate()));
                 }
+
+                buttonViewTrailers.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(getActivity(), TrailersActivity.class);
+                        intent.putExtra(getString(R.string.movie_id_extra_key), movie.getId());
+                        startActivity(intent);
+                    }
+                });
+
             } else {
                 Log.d(LOG_TAG, "No movie extra from intent");
             }

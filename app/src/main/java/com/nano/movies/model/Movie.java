@@ -11,6 +11,7 @@ import java.util.Date;
 
 public class Movie implements Serializable {
 
+    private int id;
     private String title;
     @SerializedName("release_date")
     private Date releaseDate;
@@ -19,6 +20,14 @@ public class Movie implements Serializable {
     private float voteAverage;
     @SerializedName("poster_path")
     private String imagePath;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getImagePath() {
         return imagePath;

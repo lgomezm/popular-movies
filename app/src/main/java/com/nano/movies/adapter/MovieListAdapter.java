@@ -18,6 +18,9 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
  * Created by Luis Gomez on 1/3/2017.
  */
@@ -39,16 +42,24 @@ public class MovieListAdapter extends ArrayAdapter<Movie> {
         this.movies = movies;
     }
 
+    static class ViewHolder {
+        @BindView(R.id.grid_item_movie_textview) TextView textView;
+        @BindView(R.id.grid_item_movie_imageview) ImageView imageView;
+
+        public ViewHolder(View view) {
+            ButterKnife.bind(this, view);
+        }
+    }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View itemView = inflater.inflate(R.layout.grid_item_movie, parent, false);
-        TextView textView = (TextView) itemView.findViewById(R.id.grid_item_movie_textview);
-        ImageView imageView = (ImageView) itemView.findViewById(R.id.grid_item_movie_imageview);
-        textView.setText(movies.get(position).getTitle());
+        ViewHolder holder = new ViewHolder(itemView);
+        holder.textView.setText(movies.get(position).getTitle());
         String imageUrl = context.getString(R.string.images_base_url) + movies.get(position).getImagePath();
-        Picasso.with(context).load(imageUrl).into(imageView);
+        Picasso.with(context).load(imageUrl).into(holder.imageView);
         if (movies.size() - 1 == position && maxPageReached < totalPages) {
             Log.d(LOG_TAG, "Fetching more movies!");
             Bundle args = new Bundle();

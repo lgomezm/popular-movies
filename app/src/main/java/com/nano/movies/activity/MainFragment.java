@@ -20,6 +20,9 @@ import com.nano.movies.model.MoviesResult;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
  * Created by Luis on 1/2/17.
  */
@@ -27,6 +30,8 @@ import java.util.ArrayList;
 public class MainFragment extends Fragment implements LoaderManager.LoaderCallbacks<MoviesResult> {
 
     public static final int MOVIES_LOADER = 0;
+
+    @BindView(R.id.grid_movies) GridView gridMovies;
 
     private MovieListAdapter adapter;
 
@@ -36,7 +41,7 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
 
         adapter = new MovieListAdapter(getActivity(), this, new ArrayList<Movie>());
 
-        GridView gridMovies = (GridView) rootView.findViewById(R.id.grid_movies);
+        ButterKnife.bind(this, rootView);
         gridMovies.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
