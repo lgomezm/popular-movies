@@ -38,6 +38,13 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.DetailActivity" />
         </activity>
+        <activity android:name=".activity.ReviewsActivity"
+            android:label="@string/title_activity_reviews"
+            android:parentActivityName=".activity.DetailActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.DetailActivity" />
+        </activity>
 
         <provider
             android:authorities="@string/content_authority"

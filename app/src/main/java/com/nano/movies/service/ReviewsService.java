@@ -78,7 +78,10 @@ public class ReviewsService extends IntentService {
                 for (int i = 0; i < reviews.size(); i++) {
                     Review review = reviews.get(i);
                     ContentValues cv = new ContentValues();
-                    //TODO: set contentValues
+                    cv.put(ReviewEntry.COLUMN_REVIEW_ID, review.getReviewId());
+                    cv.put(ReviewEntry.COLUMN_AUTHOR, review.getAuthor());
+                    cv.put(ReviewEntry.COLUMN_MOVIE_ID, movieId);
+                    cv.put(ReviewEntry.COLUMN_CONTENT, review.getContent());
                     values[i] = cv;
                 }
                 getContentResolver().bulkInsert(ReviewEntry.CONTENT_URI, values);

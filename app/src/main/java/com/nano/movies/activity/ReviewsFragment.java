@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.nano.movies.R;
-import com.nano.movies.adapter.TrailerListAdapter;
+import com.nano.movies.adapter.ReviewListAdapter;
 import com.nano.movies.data.MoviesContract;
 import com.nano.movies.model.Movie;
 
@@ -28,19 +28,17 @@ public class ReviewsFragment extends Fragment implements LoaderManager.LoaderCal
     private static final String LOG_TAG = ReviewsFragment.class.getSimpleName();
     private static final String[] REVIEW_COLUMNS = {
             MoviesContract.ReviewEntry._ID,
-            MoviesContract.ReviewEntry.COLUMN_REVIEW_ID,
             MoviesContract.ReviewEntry.COLUMN_AUTHOR,
             MoviesContract.ReviewEntry.COLUMN_CONTENT
     };
 
     public static final int COL_REVIEW_ID = 0;
-    public static final int COL_REVIEW_REMOTE_ID = 1;
-    public static final int COL_REVIEW_AUTHOR = 2;
-    public static final int COL_REVIEW_CONTENT = 3;
+    public static final int COL_REVIEW_AUTHOR = 1;
+    public static final int COL_REVIEW_CONTENT = 2;
 
     public static final int REVIEWS_LOADER = 2;
 
-    private TrailerListAdapter adapter;
+    private ReviewListAdapter adapter;
     private int movieId;
 
     @BindView(R.id.listview_reviews)
@@ -50,7 +48,7 @@ public class ReviewsFragment extends Fragment implements LoaderManager.LoaderCal
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        adapter = new TrailerListAdapter(getActivity(), null, 0);
+        adapter = new ReviewListAdapter(getActivity(), null, 0);
         Intent intent = getActivity().getIntent();
         View rootView = inflater.inflate(R.layout.fragment_reviews, container, false);
         String movieKey = getString(R.string.movie_extra_key);

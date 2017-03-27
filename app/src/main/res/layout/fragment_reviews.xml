@@ -2,4 +2,5 @@
     android:id="@+id/listview_reviews"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:divider="@null" />
+    android:divider="#FFCC00"
+    android:dividerHeight="4px"/>
