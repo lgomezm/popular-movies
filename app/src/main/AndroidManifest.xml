@@ -48,6 +48,10 @@
         <service
             android:name=".service.TrailersService"
             android:exported="false"/>
+
+        <service
+            android:name=".service.ReviewsService"
+            android:exported="false"/>
     </application>
 
 </manifest>

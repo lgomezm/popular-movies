@@ -1,14 +1,11 @@
 package com.nano.movies.adapter;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.nano.movies.R;
 import com.nano.movies.activity.MainFragment;
@@ -17,9 +14,6 @@ import com.nano.movies.model.MoviesResult;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * Created by Luis Gomez on 1/3/2017.
@@ -42,31 +36,22 @@ public class MovieListAdapter extends ArrayAdapter<Movie> {
         this.movies = movies;
     }
 
-    static class ViewHolder {
-        @BindView(R.id.grid_item_movie_textview) TextView textView;
-        @BindView(R.id.grid_item_movie_imageview) ImageView imageView;
-
-        public ViewHolder(View view) {
-            ButterKnife.bind(this, view);
-        }
-    }
-
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        LayoutInflater inflater = (LayoutInflater) context
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View itemView = inflater.inflate(R.layout.grid_item_movie, parent, false);
-        ViewHolder holder = new ViewHolder(itemView);
-        holder.textView.setText(movies.get(position).getTitle());
+        ImageView imageView;
+        if (null != convertView) {
+            imageView = (ImageView) convertView;
+        } else {
+            imageView = new ImageView(getContext());
+        }
         String imageUrl = context.getString(R.string.images_base_url) + movies.get(position).getImagePath();
-        Picasso.with(context).load(imageUrl).into(holder.imageView);
+        Picasso.with(context).load(imageUrl).into(imageView);
+        imageView.setScaleType(ImageView.ScaleType.FIT_XY);
         if (movies.size() - 1 == position && maxPageReached < totalPages) {
             Log.d(LOG_TAG, "Fetching more movies!");
-            Bundle args = new Bundle();
-            args.putInt("page", maxPageReached + 1);
-            fragment.getLoaderManager().restartLoader(MainFragment.MOVIES_LOADER, args, fragment).forceLoad();
+            fragment.restartLoader();
         }
-        return itemView;
+        return imageView;
     }
 
     public void updateMovies(MoviesResult moviesResult) {

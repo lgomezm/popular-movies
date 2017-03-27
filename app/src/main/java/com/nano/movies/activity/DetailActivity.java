@@ -1,30 +1,16 @@
 package com.nano.movies.activity;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.LayerDrawable;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.text.format.DateFormat;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.RatingBar;
-import android.widget.TextView;
-
+import android.view.Menu;
+import android.view.MenuItem;
 import com.nano.movies.R;
 import com.nano.movies.model.Movie;
-import com.squareup.picasso.Picasso;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class DetailActivity extends ActionBarActivity {
+
+    private Movie movie;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,68 +22,46 @@ public class DetailActivity extends ActionBarActivity {
                     .add(R.id.movie_container, new DetailFragment())
                     .commit();
         }
+
+        movie = getMovieFromIntent();
     }
 
-    public static class DetailFragment extends Fragment {
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.detail, menu);
+        return true;
+    }
 
-        private static final String LOG_TAG = DetailFragment.class.getSimpleName();
-
-        @BindView(R.id.movie_title_textview) TextView titleView;
-        @BindView(R.id.movie_overview_textview) TextView overviewView;
-        @BindView(R.id.movie_imageview) ImageView imageView;
-        @BindView(R.id.movie_vote_average) RatingBar voteAvgBar;
-        @BindView(R.id.movie_release_date_textview) TextView releaseDateView;
-        @BindView(R.id.view_trailers_button) Button buttonViewTrailers;
-
-        public DetailFragment() {
-            setHasOptionsMenu(true);
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-
-            Intent intent = getActivity().getIntent();
-            View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
-            String movieExtraKey = getString(R.string.movie_extra_key);
-            if (null != intent && intent.hasExtra(movieExtraKey)) {
-                final Movie movie = (Movie) intent.getSerializableExtra(movieExtraKey);
-
-                ButterKnife.bind(this, rootView);
-                LayerDrawable stars = (LayerDrawable) voteAvgBar.getProgressDrawable();
-
-                // Set ratingBar colors to yellow/gray.
-                stars.getDrawable(0).setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_ATOP);
-                stars.getDrawable(1).setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_ATOP);
-                stars.getDrawable(2).setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_ATOP);
-
-                titleView.setText(movie.getTitle());
-                overviewView.setText(movie.getOverview());
-                Picasso.with(getActivity())
-                        .load(getString(R.string.images_base_url)+ movie.getImagePath())
-                        .into(imageView);
-                if (movie.getVoteAverage() != 0.0f) {
-                    voteAvgBar.setRating(movie.getVoteAverage() / 2);
-                }
-                if (null != movie.getReleaseDate()) {
-                    releaseDateView.setText("Released: " +
-                            DateFormat.format(getString(R.string.release_date_display_format),
-                                    movie.getReleaseDate()));
-                }
-
-                buttonViewTrailers.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent intent = new Intent(getActivity(), TrailersActivity.class);
-                        intent.putExtra(getString(R.string.movie_id_extra_key), movie.getId());
-                        startActivity(intent);
-                    }
-                });
-
-            } else {
-                Log.d(LOG_TAG, "No movie extra from intent");
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_settings) {
+            startActivity(new Intent(this, SettingsActivity.class));
+            return true;
+        } else if (id == R.id.action_trailers) {
+            if (null != movie) {
+                Intent intent = new Intent(this, TrailersActivity.class);
+                intent.putExtra(getString(R.string.movie_extra_key), movie);
+                startActivity(intent);
+                return true;
             }
-            return rootView;
+        } else if (id == R.id.action_reviews) {
+            if (null != movie) {
+                Intent intent = new Intent(this, ReviewsActivity.class);
+                intent.putExtra(getString(R.string.movie_extra_key), movie);
+                startActivity(intent);
+                return true;
+            }
         }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private Movie getMovieFromIntent() {
+        Intent intent = getIntent();
+        String movieExtraKey = getString(R.string.movie_extra_key);
+        if (null != intent && intent.hasExtra(movieExtraKey)) {
+            return intent.getParcelableExtra(movieExtraKey);
+        }
+        return null;
     }
 }

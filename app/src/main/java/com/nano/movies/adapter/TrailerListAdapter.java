@@ -31,8 +31,6 @@ public class TrailerListAdapter extends CursorAdapter {
         ImageView videoThumbnail;
         @BindView(R.id.list_item_video_name)
         TextView videoNameTextView;
-        @BindView(R.id.list_item_video_size)
-        TextView videoSizeTextView;
 
         public ViewHolder(View view) {
             ButterKnife.bind(this, view);
@@ -51,7 +49,6 @@ public class TrailerListAdapter extends CursorAdapter {
     public void bindView(View view, final Context context, Cursor cursor) {
         ViewHolder viewHolder = (ViewHolder) view.getTag();
         viewHolder.videoNameTextView.setText(cursor.getString(TrailersFragment.COL_VIDEO_NAME));
-        viewHolder.videoSizeTextView.setText(cursor.getString(TrailersFragment.COL_VIDEO_SIZE));
 
         String videoKey = cursor.getString(TrailersFragment.COL_VIDEO_ID);
         String imageUrl = String.format(context.getString(R.string.youtube_thumb_url), videoKey);

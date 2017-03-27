@@ -18,5 +18,5 @@
         android:minHeight="20dp"
         android:gravity="center_vertical"
         android:layout_weight=".05"
-        android:textColor="@color/white" />
+        style="@style/TextColor"/>
 </LinearLayout>

@@ -1,10 +1,8 @@
 package com.nano.movies.rest;
 
-import com.nano.movies.model.MovieVideo;
 import com.nano.movies.model.MoviesResult;
+import com.nano.movies.model.ReviewsResult;
 import com.nano.movies.model.VideosResult;
-
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -25,4 +23,8 @@ public interface MovieApiClient {
     @GET("movie/{movieId}/videos")
     Call<VideosResult> getVideoList(@Path("movieId") int movieId,
                                     @Query("api_key") String apiKey);
+
+    @GET("movie/{movieId}/reviews")
+    Call<ReviewsResult> getReviews(@Path("movieId") int movieId,
+                                   @Query("api_key") String apiKey);
 }

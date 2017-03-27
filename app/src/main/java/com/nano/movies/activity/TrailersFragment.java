@@ -17,6 +17,7 @@ import android.widget.ListView;
 import com.nano.movies.R;
 import com.nano.movies.adapter.TrailerListAdapter;
 import com.nano.movies.data.MoviesContract;
+import com.nano.movies.model.Movie;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -55,9 +56,10 @@ public class TrailersFragment extends Fragment implements LoaderManager.LoaderCa
         adapter = new TrailerListAdapter(getActivity(), null, 0);
         Intent intent = getActivity().getIntent();
         View rootView = inflater.inflate(R.layout.fragment_trailers, container, false);
-        String movieIdExtraKey = getString(R.string.movie_id_extra_key);
-        if (null != intent && intent.hasExtra(movieIdExtraKey)) {
-            movieId = intent.getIntExtra(movieIdExtraKey, -1);
+        String movieKey = getString(R.string.movie_extra_key);
+        if (null != intent && intent.hasExtra(movieKey)) {
+            Movie movie = intent.getParcelableExtra(movieKey);
+            movieId = movie.getId();
             ButterKnife.bind(this, rootView);
             trailersListView.setAdapter(adapter);
             trailersListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

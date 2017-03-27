@@ -5,8 +5,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    android:background="@color/black"
-    tools:context="com.nano.movies.activity.DetailActivity$DetailFragment">
+    tools:context="com.nano.movies.activity.DetailFragment">
 
     <TextView
         android:id="@+id/movie_title_textview"
@@ -14,8 +13,8 @@
         android:layout_height="0dp"
         android:layout_weight="0.10"
         android:textSize="20dp"
-        android:textColor="@color/white"
-        android:gravity="center_horizontal"/>
+        android:gravity="center_horizontal"
+        style="@style/TextColor"/>
     <ImageView
         android:id="@+id/movie_imageview"
         android:layout_width="match_parent"
@@ -36,18 +35,12 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.05"
-        android:textColor="@color/white"
-        android:gravity="center_horizontal"/>
-    <Button
-        android:id="@+id/view_trailers_button"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.05"
-        android:text="View trailers"/>
+        android:gravity="center_horizontal"
+        style="@style/TextColor"/>
     <TextView android:id="@+id/movie_overview_textview"
-        android:textColor="@color/white"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.30" />
+        android:layout_weight="0.30"
+        style="@style/TextColor"/>
 
 </LinearLayout>

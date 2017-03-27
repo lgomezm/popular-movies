@@ -11,10 +11,12 @@
     <string name="movie_extra_key">movie</string>
     <string name="movie_id_extra_key">id</string>
     <string name="movies_base_url">https://api.themoviedb.org/3/</string>
-    <string name="images_base_url">http://image.tmdb.org/t/p/w500</string>
+    <string name="images_base_url">http://image.tmdb.org/t/p/w185</string>
     <string name="dates_rest_api_format">yyyy-MM-dd</string>
     <string name="release_date_display_format">MM/dd/yyyy</string>
     <string name="youtube_video_url">https://www.youtube.com/watch?v=<xliff:g id="video_id">%1$s</xliff:g></string>
     <string name="youtube_thumb_url">https://img.youtube.com/vi/<xliff:g id="video_id">%1$s</xliff:g>/0.jpg</string>
     <string name="content_authority">com.nano.movies</string>
+    <string name="action_trailers">Trailers</string>
+    <string name="action_reviews">Reviews</string>
 </resources>
