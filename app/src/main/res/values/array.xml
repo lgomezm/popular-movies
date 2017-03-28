@@ -3,9 +3,11 @@
     <array name="movies_by_labels">
         <item>Popularity</item>
         <item>Top rated</item>
+        <item>Favorites</item>
     </array>
     <array name="movies_by_keys">
         <item>popular</item>
         <item>top_rated</item>
+        <item>favorites</item>
     </array>
 </resources>

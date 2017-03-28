@@ -5,7 +5,6 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -23,6 +22,7 @@ public class Movie implements Parcelable {
     private float voteAverage;
     @SerializedName("poster_path")
     private String imagePath;
+    private boolean isFavorite;
 
     public Movie() { }
 
@@ -32,6 +32,8 @@ public class Movie implements Parcelable {
         overview = in.readString();
         voteAverage = in.readFloat();
         imagePath = in.readString();
+        releaseDate = (Date) in.readSerializable();
+        isFavorite = in.readByte() != 0;
     }
 
     public static final Creator<Movie> CREATOR = new Creator<Movie>() {
@@ -94,17 +96,27 @@ public class Movie implements Parcelable {
         this.releaseDate = releaseDate;
     }
 
+    public boolean isFavorite() {
+        return isFavorite;
+    }
+
+    public void setFavorite(boolean favorite) {
+        isFavorite = favorite;
+    }
+
     @Override
     public int describeContents() {
         return 0;
     }
 
     @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeInt(id);
-        parcel.writeString(title);
-        parcel.writeString(overview);
-        parcel.writeFloat(voteAverage);
-        parcel.writeString(imagePath);
+    public void writeToParcel(Parcel out, int flags) {
+        out.writeInt(id);
+        out.writeString(title);
+        out.writeString(overview);
+        out.writeFloat(voteAverage);
+        out.writeString(imagePath);
+        out.writeSerializable(releaseDate);
+        out.writeByte((byte) (isFavorite ? 1 : 0));
     }
 }
