@@ -2,12 +2,16 @@ package com.nano.movies.activity;
 
 import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,6 +24,7 @@ import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import com.nano.movies.R;
+import com.nano.movies.data.MoviesContract;
 import com.nano.movies.data.MoviesContract.MovieEntry;
 import com.nano.movies.model.Movie;
 import com.squareup.picasso.Picasso;
@@ -31,9 +36,10 @@ import butterknife.ButterKnife;
  * Created by Luis Gomez on 3/26/2017.
  */
 
-public class DetailFragment extends Fragment {
+public class DetailFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private static final String LOG_TAG = DetailFragment.class.getSimpleName();
+    public static final int MOVIE_LOADER = 0;
 
     private Movie movie;
 
@@ -92,8 +98,10 @@ public class DetailFragment extends Fragment {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     if (isChecked) {
-                        markAsFavorite();
-                    } else {
+                        if (!movie.isFavorite()) {
+                            markAsFavorite();
+                        }
+                    } else if (movie.isFavorite()) {
                         unmarkAsFavorite();
                     }
                     movie.setFavorite(isChecked);
@@ -105,6 +113,12 @@ public class DetailFragment extends Fragment {
             Log.d(LOG_TAG, "No movie extra from intent");
         }
         return rootView;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        getLoaderManager().initLoader(MOVIE_LOADER, null, this);
+        super.onActivityCreated(savedInstanceState);
     }
 
     private int getResDrawable() {
@@ -135,4 +149,25 @@ public class DetailFragment extends Fragment {
                 MovieEntry.COLUMN_MOVIE_ID + " = ?",
                 new String[] { String.valueOf(movie.getId()) });
     }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        return new CursorLoader(getActivity(),
+                MoviesContract.MovieEntry.CONTENT_URI,
+                new String[] { MovieEntry.COLUMN_MOVIE_ID },
+                MoviesContract.MovieEntry.COLUMN_MOVIE_ID + " = ?",
+                new String[] { String.valueOf(movie.getId()) },
+                null);
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+        movie.setFavorite(cursor.moveToFirst());
+        if (null != favoriteButton) {
+            favoriteButton.setChecked(movie.isFavorite());
+        }
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) { }
 }

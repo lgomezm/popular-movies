@@ -2,6 +2,7 @@ package com.nano.movies.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -46,6 +47,8 @@ public class MainFragment extends Fragment {
     private static final String POSITION_KEY = "selected_position";
     private static final String PAGE_KEY = "current_page";
     private static final String MOVIES_KEY = "movies";
+    private static final int GRID_NUM_COLUMNS_PORTRAIT = 3;
+    private static final int GRID_NUM_COLUMNS_LANDSCAPE = 4;
 
     public static final int FAVORITES_LOADER = 0;
     public static final int API_LOADER = 1;
@@ -97,6 +100,11 @@ public class MainFragment extends Fragment {
         }
 
         ButterKnife.bind(this, rootView);
+        int numColumns = GRID_NUM_COLUMNS_PORTRAIT;
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            numColumns = GRID_NUM_COLUMNS_LANDSCAPE;
+        }
+        gridMovies.setNumColumns(numColumns);
         gridMovies.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {

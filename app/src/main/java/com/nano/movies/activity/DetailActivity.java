@@ -7,23 +7,44 @@ import android.view.Menu;
 import android.view.MenuItem;
 import com.nano.movies.R;
 import com.nano.movies.model.Movie;
+import com.nano.movies.service.ReviewsService;
+import com.nano.movies.service.TrailersService;
 
 public class DetailActivity extends ActionBarActivity {
+
+    private static final String TRAILERSFRAGMENT_TAG = "TTAG";
+    private static final String REVIEWSFRAGMENT_TAG = "RTAG";
 
     private Movie movie;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail);
 
-        if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.movie_container, new DetailFragment())
-                    .commit();
+        setContentView(R.layout.activity_detail);
+        boolean threePane = false;
+        if (findViewById(R.id.trailers_container) != null) {
+            threePane = true;
+            if (savedInstanceState == null) {
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.trailers_container, new TrailersFragment(), TRAILERSFRAGMENT_TAG)
+                        .replace(R.id.reviews_container, new ReviewsFragment(), REVIEWSFRAGMENT_TAG)
+                        .commit();
+            }
         }
 
         movie = getMovieFromIntent();
+        if (null != movie && threePane) {
+            String movieIdKey = getString(R.string.movie_id_extra_key);
+
+            Intent trailersServiceIntent = new Intent(this, TrailersService.class);
+            trailersServiceIntent.putExtra(movieIdKey, movie.getId());
+            startService(trailersServiceIntent);
+
+            Intent reviewsServiceIntent = new Intent(this, ReviewsService.class);
+            reviewsServiceIntent.putExtra(movieIdKey, movie.getId());
+            startService(reviewsServiceIntent);
+        }
     }
 
     @Override
